@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ficha do teste · Operação Murph</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --preto: #111111; --vinho: #5B0F17; --terracota: #B4573D; --areia: #D9B37C;
+    --laranja: #E8871E; --creme: #FDF1DE; --linha: #3a3330; --suave: #b9a891;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--preto); color: var(--creme); font-family: Montserrat, Arial, sans-serif; font-size: 15px; line-height: 1.45; }
+  .pagina { max-width: 720px; margin: 0 auto; padding: 24px 16px 40px; }
+  .marca { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--areia); font-weight: 600; }
+  h1 { font-family: 'Bebas Neue', Impact, sans-serif; font-weight: 400; font-size: 52px; line-height: .95; margin: 10px 0 4px; letter-spacing: .01em; }
+  h1 span { color: var(--laranja); }
+  .sub { color: var(--suave); margin: 0 0 18px; }
+  h2 { font-family: 'Bebas Neue', Impact, sans-serif; font-weight: 400; font-size: 26px; letter-spacing: .03em; margin: 26px 0 10px; color: var(--laranja); }
+  .bloco { border: 1px solid var(--linha); border-radius: 12px; padding: 14px 14px; background: #171514; }
+  .nome { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; }
+  label.campo { display: block; font-size: 12px; color: var(--suave); text-transform: uppercase; letter-spacing: .08em; font-weight: 600; }
+  input[type=text], input[type=number], input[type=date] {
+    width: 100%; margin-top: 4px; padding: 10px 10px; font: inherit; font-size: 16px; color: var(--creme);
+    background: transparent; border: none; border-bottom: 1.5px solid var(--areia); border-radius: 0; outline: none;
+  }
+  input:focus { border-bottom-color: var(--laranja); }
+  .check { display: flex; gap: 12px; align-items: flex-start; padding: 9px 0; border-bottom: 1px dashed var(--linha); cursor: pointer; }
+  .check:last-child { border-bottom: none; }
+  .check input { appearance: none; -webkit-appearance: none; flex: 0 0 22px; width: 22px; height: 22px; margin: 1px 0 0; border: 2px solid var(--areia); border-radius: 6px; background: transparent; display: grid; place-content: center; cursor: pointer; }
+  .check input::after { content: ""; width: 11px; height: 6px; border-left: 3px solid var(--preto); border-bottom: 3px solid var(--preto); transform: rotate(-45deg) translate(1px,-1px); opacity: 0; }
+  .check input:checked { background: var(--laranja); border-color: var(--laranja); }
+  .check input:checked::after { opacity: 1; }
+  .check input:checked + span { color: var(--suave); text-decoration: line-through; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--suave); font-weight: 600; padding: 6px 6px; }
+  td { padding: 10px 6px; border-top: 1px solid var(--linha); vertical-align: middle; }
+  td.ex { font-weight: 600; }
+  td.ex small { display: block; font-weight: 400; color: var(--suave); font-size: 12px; }
+  td input { margin-top: 0; text-align: center; }
+  .dif { text-align: center; font-weight: 700; color: var(--laranja); min-width: 52px; }
+  .col-num { width: 92px; }
+  .niveis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .nivel { border: 1px solid var(--linha); border-radius: 10px; padding: 12px; }
+  .nivel b { font-family: 'Bebas Neue', Impact, sans-serif; font-weight: 400; font-size: 20px; letter-spacing: .04em; color: var(--areia); display: block; }
+  .nivel .res { font-size: 18px; font-weight: 700; color: var(--laranja); min-height: 26px; }
+  .nivel p { margin: 6px 0 0; font-size: 12px; color: var(--suave); }
+  .destaque { margin-top: 10px; padding: 12px 14px; border-radius: 10px; background: var(--vinho); }
+  .destaque strong { color: var(--creme); }
+  .acoes { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+  button { font: inherit; font-weight: 700; padding: 12px 16px; border-radius: 10px; border: none; cursor: pointer; }
+  .btn-pri { background: var(--laranja); color: var(--preto); }
+  .btn-sec { background: transparent; color: var(--creme); border: 1px solid var(--linha); }
+  .nota { font-size: 12px; color: var(--suave); margin-top: 10px; }
+  .rodape { margin-top: 28px; font-size: 11px; color: var(--suave); letter-spacing: .18em; text-transform: uppercase; text-align: center; }
+  @media (max-width: 480px) {
+    h1 { font-size: 44px; }
+    .nome, .niveis { grid-template-columns: 1fr; }
+    .col-num { width: 72px; }
+    th, td { padding-left: 3px; padding-right: 3px; }
+  }
+  @media print {
+    @page { size: A4; margin: 12mm; }
+    body { background: #fff; color: #111; font-size: 11.5px; line-height: 1.35; }
+    .pagina { max-width: none; padding: 0; }
+    .bloco, .nivel { background: #fff; border-color: #ccc; }
+    .sub, label.campo, th, td.ex small, .nivel p, .rodape, .marca { color: #555; }
+    h1 { font-size: 36px; margin-top: 4px; } h2 { font-size: 19px; margin: 12px 0 6px; color: var(--terracota); } .sub { margin-bottom: 10px; } .bloco { padding: 8px 12px; } td { padding: 6px 6px; } .nivel { padding: 8px 10px; } .destaque { margin-top: 8px; padding: 8px 12px; } .rodape { margin-top: 12px; }
+    input[type=text], input[type=number], input[type=date] { color: #111; border-bottom-color: #888; padding: 6px; }
+    .check { border-bottom-color: #ddd; padding: 4px 0; } .check input { width: 16px; height: 16px; flex-basis: 16px; }
+    .check input { border-color: #555; }
+    td { border-top-color: #ddd; }
+    .destaque { background: #f6ece0; color: #111; }
+    .destaque strong { color: #111; }
+    .acoes, .nota, .rodape { display: none; } input[type=date] { color: transparent; } input[type=date]::-webkit-calendar-picker-indicator { display: none; }
+    .dif, .nivel .res { color: #111; }
+  }
+</style>
+</head>
+<body>
+<main class="pagina">
+  <div class="marca">Método CFP · Ginástica Falagan</div>
+  <h1>Operação Murph<br><span>Ficha do teste</span></h1>
+  <p class="sub">Semana 1 (teste de entrada) e semana 8 (reteste). Preencha aqui e guarde. É com ela que você vê o quanto evoluiu.</p>
+
+  <div class="bloco nome">
+    <label class="campo">Nome<input type="text" data-k="nome" autocomplete="name"></label>
+    <label class="campo">Data do teste<input type="date" data-k="data1"></label>
+    <label class="campo">Data do reteste<input type="date" data-k="data2"></label>
+  </div>
+
+  <h2>Antes de começar</h2>
+  <div class="bloco">
+    <label class="check"><input type="checkbox" data-k="c1"><span>Aqueci por 5 minutos</span></label>
+    <label class="check"><input type="checkbox" data-k="c2"><span>Celular posicionado pra gravar de lado, com o corpo inteiro aparecendo</span></label>
+    <label class="check"><input type="checkbox" data-k="c3"><span>Cronômetro pronto pra contar 3 minutos de descanso entre os testes</span></label>
+    <label class="check"><input type="checkbox" data-k="c4"><span>Vou fazer os 4 testes no mesmo dia, nesta ordem</span></label>
+  </div>
+
+  <h2>Os 4 testes</h2>
+  <div class="bloco">
+    <table>
+      <thead><tr><th>Teste</th><th class="col-num">Semana 1</th><th class="col-num">Semana 8</th><th class="dif">+/-</th></tr></thead>
+      <tbody>
+        <tr data-row="t1"><td class="ex">1. Pull up estrito<small>máximo, sem kip · ▶E06</small></td><td><input type="number" inputmode="numeric" min="0" data-k="t1a" placeholder="reps"></td><td><input type="number" inputmode="numeric" min="0" data-k="t1b" placeholder="reps"></td><td class="dif" id="d1"></td></tr>
+        <tr data-row="t2"><td class="ex">2. Dead hang ativo<small>tempo máximo · ▶E02</small></td><td><input type="number" inputmode="numeric" min="0" data-k="t2a" placeholder="seg"></td><td><input type="number" inputmode="numeric" min="0" data-k="t2b" placeholder="seg"></td><td class="dif" id="d2"></td></tr>
+        <tr data-row="t3"><td class="ex">3. Kipping pull up<small>unbroken, só quem já faz com qualidade · ▶E12</small></td><td><input type="number" inputmode="numeric" min="0" data-k="t3a" placeholder="reps"></td><td><input type="number" inputmode="numeric" min="0" data-k="t3b" placeholder="reps"></td><td class="dif" id="d3"></td></tr>
+        <tr data-row="t4"><td class="ex">4. Push up<small>unbroken, peito no chão e corpo alinhado · ▶E18</small></td><td><input type="number" inputmode="numeric" min="0" data-k="t4a" placeholder="reps"></td><td><input type="number" inputmode="numeric" min="0" data-k="t4b" placeholder="reps"></td><td class="dif" id="d4"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>O seu nível</h2>
+  <div class="niveis">
+    <div class="nivel"><b>Barra (pull up)</b><div class="res" id="nBarra"></div><p>Iniciante: 0 estritos · Intermediário: 1 a 5 · Avançado: 6 ou mais e já faz kipping com qualidade</p></div>
+    <div class="nivel"><b>Chão (push up)</b><div class="res" id="nChao"></div><p>Iniciante: menos de 5 · Intermediário: 5 a 20 · Avançado: mais de 20</p></div>
+  </div>
+  <div class="destaque">
+    <strong>Seus números de treino:</strong>
+    50% do máximo de push up = <strong id="p50">___</strong> reps ·
+    Dead hang 50% (sem. 5) = <strong id="h50">___</strong>s ·
+    60% (sem. 6) = <strong id="h60">___</strong>s
+  </div>
+
+  <h2>Depois do teste</h2>
+  <div class="bloco">
+    <label class="check"><input type="checkbox" data-k="d1c"><span>Anotei os 4 números na coluna da semana 1</span></label>
+    <label class="check"><input type="checkbox" data-k="d2c"><span>Mandei o vídeo no grupo</span></label>
+    <label class="check"><input type="checkbox" data-k="d3c"><span>Tirei a foto do meu ponto de partida</span></label>
+    <label class="check"><input type="checkbox" data-k="d4c"><span>Escolhi o meu nível na barra e no chão (na dúvida, o mais baixo)</span></label>
+  </div>
+
+  <div class="acoes">
+    <button class="btn-pri" onclick="window.print()">Salvar em PDF</button>
+    <button class="btn-sec" onclick="limpar()">Limpar ficha</button>
+  </div>
+  <p class="nota">O que você preenche fica salvo neste celular, nesse navegador. Pode fechar e voltar depois.</p>
+
+  <div class="rodape">We are all made of magic</div>
+</main>
+<script>
+  const KEY = 'ficha-teste-murph';
+  let dados = {};
+  try { dados = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  const campos = document.querySelectorAll('[data-k]');
+  campos.forEach(el => {
+    const k = el.dataset.k;
+    if (k in dados) { if (el.type === 'checkbox') el.checked = !!dados[k]; else el.value = dados[k]; }
+    el.addEventListener('input', () => { dados[k] = el.type === 'checkbox' ? el.checked : el.value; salvar(); calc(); });
+    el.addEventListener('change', () => { dados[k] = el.type === 'checkbox' ? el.checked : el.value; salvar(); calc(); });
+  });
+  function salvar() { try { localStorage.setItem(KEY, JSON.stringify(dados)); } catch (e) {} }
+  function num(k) { const v = dados[k]; return v === undefined || v === '' ? null : Number(v); }
+  function calc() {
+    for (let i = 1; i <= 4; i++) {
+      const a = num('t' + i + 'a'), b = num('t' + i + 'b');
+      document.getElementById('d' + i).textContent = a !== null && b !== null ? ((b - a > 0 ? '+' : '') + (b - a)) : '';
+    }
+    const pu = num('t1a'), kip = num('t3a'), push = num('t4a'), hang = num('t2a');
+    let barra = '';
+    if (pu !== null) barra = pu === 0 ? 'Iniciante' : (pu <= 5 ? 'Intermediário' : (kip ? 'Avançado' : 'Intermediário'));
+    let chao = '';
+    if (push !== null) chao = push < 5 ? 'Iniciante' : (push <= 20 ? 'Intermediário' : 'Avançado');
+    document.getElementById('nBarra').textContent = barra;
+    document.getElementById('nChao').textContent = chao;
+    document.getElementById('p50').textContent = push !== null ? Math.floor(push / 2) : '___';
+    document.getElementById('h50').textContent = hang !== null ? Math.round(hang * 0.5) : '___';
+    document.getElementById('h60').textContent = hang !== null ? Math.round(hang * 0.6) : '___';
+  }
+  function limpar() { if (confirm('Apagar tudo o que você preencheu?')) { dados = {}; salvar(); campos.forEach(el => { if (el.type === 'checkbox') el.checked = false; else el.value = ''; }); calc(); } }
+  calc();
+</script>
+</body>
+</html>
