@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ficha da Semana 7 · Operação Murph</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --preto:#111111; --vinho:#5B0F17; --terracota:#B4573D; --areia:#D9B37C; --laranja:#E8871E; --creme:#FDF1DE; --linha:#3a3330; --suave:#b9a891; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--preto); color:var(--creme); font-family:Montserrat, Arial, sans-serif; font-size:15px; line-height:1.45; }
+  .pagina { max-width:720px; margin:0 auto; padding:24px 16px 40px; }
+  .marca { font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--areia); font-weight:600; }
+  h1 { font-family:'Bebas Neue', Impact, sans-serif; font-weight:400; font-size:52px; line-height:.95; margin:10px 0 4px; }
+  h1 span { color:var(--laranja); }
+  .sub { color:var(--suave); margin:0 0 18px; }
+  h2 { font-family:'Bebas Neue', Impact, sans-serif; font-weight:400; font-size:30px; letter-spacing:.03em; margin:28px 0 8px; color:var(--laranja); }
+  h3 { font-family:'Bebas Neue', Impact, sans-serif; font-weight:400; font-size:20px; letter-spacing:.05em; margin:14px 0 6px; color:var(--areia); }
+  .bloco { border:1px solid var(--linha); border-radius:12px; padding:12px 14px; background:#171514; }
+  .niveis { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  label.campo { display:block; font-size:12px; color:var(--suave); text-transform:uppercase; letter-spacing:.08em; font-weight:600; }
+  select, input[type=date], textarea { width:100%; margin-top:4px; padding:10px; font:inherit; font-size:16px; color:var(--creme); background:#1f1c1a; border:1px solid var(--linha); border-radius:8px; }
+  textarea { min-height:70px; resize:vertical; }
+  .linha { padding:8px 0; border-top:1px dashed var(--linha); }
+  .linha:first-of-type { border-top:none; }
+  .nv { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--areia); margin-right:6px; }
+  .txt { display:block; margin:2px 0 6px; }
+  .series { display:flex; flex-wrap:wrap; gap:6px; }
+  .series input, .feito input { appearance:none; -webkit-appearance:none; width:26px; height:26px; margin:0; border:2px solid var(--areia); border-radius:6px; background:transparent; display:grid; place-content:center; cursor:pointer; }
+  .series input::after, .feito input::after { content:""; width:11px; height:6px; border-left:3px solid var(--preto); border-bottom:3px solid var(--preto); transform:rotate(-45deg) translate(1px,-1px); opacity:0; }
+  .series input:checked, .feito input:checked { background:var(--laranja); border-color:var(--laranja); }
+  .series input:checked::after, .feito input:checked::after { opacity:1; }
+  .feito { display:flex; align-items:center; gap:10px; margin-top:12px; font-weight:600; cursor:pointer; }
+  .topo-treino { display:grid; grid-template-columns:1fr 160px; gap:10px; align-items:end; }
+  .oculto { display:none; }
+  .acoes { display:flex; gap:10px; flex-wrap:wrap; margin-top:24px; }
+  button { font:inherit; font-weight:700; padding:12px 16px; border-radius:10px; border:none; cursor:pointer; }
+  .btn-pri { background:var(--laranja); color:var(--preto); }
+  .btn-sec { background:transparent; color:var(--creme); border:1px solid var(--linha); }
+  .nota { font-size:12px; color:var(--suave); margin-top:10px; }
+  .rodape { margin-top:28px; font-size:11px; color:var(--suave); letter-spacing:.18em; text-transform:uppercase; text-align:center; }
+  @media (max-width:480px) { h1 { font-size:44px; } .niveis, .topo-treino { grid-template-columns:1fr; } }
+  @media print {
+    @page { size:A4; margin:11mm; }
+    body { background:#fff; color:#111; font-size:10.5px; line-height:1.3; }
+    .pagina { max-width:none; padding:0; }
+    h1 { font-size:34px; } h2 { font-size:20px; margin:10px 0 4px; color:var(--terracota); } h3 { font-size:14px; margin:6px 0 2px; color:#555; }
+    .bloco { background:#fff; border-color:#ccc; padding:6px 10px; break-inside:avoid; }
+    .sub, label.campo, .rodape, .marca, .nv { color:#555; }
+    .oculto { display:block !important; }
+    .linha { padding:3px 0; border-top-color:#e2e2e2; }
+    .txt { display:inline; margin:0 6px 0 0; }
+    .series { display:inline-flex; gap:3px; vertical-align:middle; }
+    .series input, .feito input { width:13px; height:13px; border-width:1.5px; border-color:#555; border-radius:3px; }
+    select, input[type=date], textarea { background:#fff; color:#111; border-color:#bbb; padding:4px; font-size:11px; }
+    input[type=date] { color:transparent; } input[type=date]::-webkit-calendar-picker-indicator { display:none; }
+    textarea { min-height:34px; }
+    .escolha, .acoes, .nota, .rodape { display:none; }
+    .treino + .treino { break-before:page; }
+  }
+</style>
+</head>
+<body>
+<main class="pagina">
+  <div class="marca">Método CFP · Ginástica Falagan</div>
+  <h1>Operação Murph<br><span>Ficha da Semana 7</span></h1>
+  <p class="sub">Semana 7 · Simulado. Marque um quadradinho a cada série feita. No celular, escolha o seu nível e a ficha mostra só o seu treino.</p>
+
+  <div class="bloco niveis escolha">
+    <label class="campo">Meu nível na barra<select id="nBarra"><option value="">Mostrar todos</option><option>Iniciante</option><option>Intermediário</option><option>Avançado</option></select></label>
+    <label class="campo">Meu nível no chão<select id="nChao"><option value="">Mostrar todos</option><option>Iniciante</option><option>Intermediário</option><option>Avançado</option></select></label>
+  </div>
+
+  <div id="treinos"></div>
+
+  <div class="acoes">
+    <button class="btn-pri" onclick="window.print()">Salvar em PDF</button>
+    <button class="btn-sec" onclick="limpar()">Limpar ficha</button>
+  </div>
+  <p class="nota">O que você marca fica salvo neste celular, nesse navegador. Pode fechar e voltar depois.</p>
+  <div class="rodape">We are all made of magic</div>
+</main>
+<script>
+  const DATA = [{"nome":"Treino A · Simulado parcial","blocos":[{"titulo":"ATIVAÇÃO (todos)","todos":"2x10 Scap pull ▶E01 + 2x8 Scap push up ▶E14 + 1x30s Prancha alta ▶E15"},{"titulo":"SIMULADO (20 min, o máximo de séries que conseguir)","niveis":[{"nivel":"Iniciante","texto":"séries de (3 Pull up escalonado + 6 Push up na caixa ou no joelho) ▶E08 ▶E09 ▶E10 ▶E16 ▶E17"},{"nivel":"Intermediário","texto":"séries de (3 Pull up + 6 Push up) (pull up com kipping ou jumping pull up) ▶E12 ▶E08 ▶E18"},{"nivel":"Avançado","texto":"séries de (5 Pull up + 10 Push up) ▶E12 ▶E18"}]},{"titulo":"ANOTE (todos)","todos":"total de pull ups e push ups e em que ponto o ritmo caiu."}]},{"nome":"Treino B · Simulado particionado (formato Cindy)","blocos":[{"titulo":"ATIVAÇÃO (todos)","todos":"2x10 Scap pull ▶E01 + 2x6 Hollow-arch pendurado ▶E11a"},{"titulo":"SIMULADO","niveis":[{"nivel":"Iniciante","texto":"10 rounds de (5 Pull up escalonado + 10 Push up na caixa ou no joelho) ▶E08 ▶E09 ▶E10 ▶E16 ▶E17"},{"nivel":"Intermediário","texto":"10 rounds de (5 Pull up + 10 Push up) (pull up com kipping ou jumping pull up) ▶E12 ▶E08 ▶E18"},{"nivel":"Avançado","texto":"15 rounds de (5 Pull up + 10 Push up) ▶E12 ▶E18"}]},{"titulo":"ANOTE (todos)","todos":"tempo total e a estratégia de séries que funcionou."}]}];
+  const KEY = 'ficha-semana-7-murph';
+  let dados = {};
+  try { dados = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function salvar() { try { localStorage.setItem(KEY, JSON.stringify(dados)); } catch (e) {} }
+  function nSeries(texto, bloco) {
+    let m = texto.match(/^(\d+)\s*x/i) || texto.match(/^(\d+)\s+(séries|clusters|rounds)/i);
+    if (m) return Math.min(+m[1], 15);
+    m = bloco.match(/EMOM (\d+) min/i);
+    if (m) return Math.min(+m[1], 15);
+    return 1;
+  }
+  function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+  function tipoNivel(bloco) { return /EMPURRAR/i.test(bloco) && !/PUXAR/i.test(bloco) ? 'chao' : 'barra'; }
+  const raiz = document.getElementById('treinos');
+  let html = '';
+  DATA.forEach((t, ti) => {
+    html += '<section class="treino"><h2>' + esc(t.nome) + '</h2><div class="bloco">';
+    html += '<div class="topo-treino"><span></span><label class="campo">Data<input type="date" data-k="t' + ti + 'd"></label></div>';
+    t.blocos.forEach((b, bi) => {
+      html += '<h3>' + esc(b.titulo) + '</h3>';
+      if (b.todos) {
+        const n = nSeries(b.todos.replace(/^.*?:\s*/, ''), b.titulo);
+        html += '<div class="linha"><span class="txt">' + esc(b.todos) + '</span><span class="series">' + caixas('t' + ti + 'b' + bi + 'x', 1) + '</span></div>';
+      } else {
+        b.niveis.forEach((l, li) => {
+          const n = nSeries(l.texto, b.titulo);
+          html += '<div class="linha" data-tipo="' + tipoNivel(b.titulo) + '" data-nivel="' + l.nivel + '"><span class="txt"><span class="nv">' + l.nivel + '</span>' + esc(l.texto) + '</span><span class="series">' + caixas('t' + ti + 'b' + bi + 'l' + li, n) + '</span></div>';
+        });
+      }
+    });
+    html += '<label class="campo" style="margin-top:12px">Anotações (reps, tempo, como se sentiu)<textarea data-k="t' + ti + 'n"></textarea></label>';
+    html += '<label class="feito"><input type="checkbox" data-k="t' + ti + 'f"> Treino feito</label>';
+    html += '</div></section>';
+  });
+  raiz.innerHTML = html;
+  function caixas(pref, n) { let s = ''; for (let i = 0; i < n; i++) s += '<input type="checkbox" data-k="' + pref + '_' + i + '" aria-label="série ' + (i + 1) + '">'; return s; }
+  document.querySelectorAll('[data-k]').forEach(el => {
+    const k = el.dataset.k;
+    if (k in dados) { if (el.type === 'checkbox') el.checked = !!dados[k]; else el.value = dados[k]; }
+    const f = () => { dados[k] = el.type === 'checkbox' ? el.checked : el.value; salvar(); };
+    el.addEventListener('input', f); el.addEventListener('change', f);
+  });
+  const selB = document.getElementById('nBarra'), selC = document.getElementById('nChao');
+  selB.value = dados._nb || ''; selC.value = dados._nc || '';
+  function filtrar() {
+    dados._nb = selB.value; dados._nc = selC.value; salvar();
+    document.querySelectorAll('.linha[data-nivel]').forEach(l => {
+      const alvo = l.dataset.tipo === 'chao' ? selC.value : selB.value;
+      l.classList.toggle('oculto', !!alvo && l.dataset.nivel !== alvo);
+    });
+  }
+  selB.addEventListener('change', filtrar); selC.addEventListener('change', filtrar); filtrar();
+  function limpar() { if (confirm('Apagar tudo o que você marcou nesta ficha?')) { dados = {}; salvar(); location.reload(); } }
+</script>
+</body>
+</html>
